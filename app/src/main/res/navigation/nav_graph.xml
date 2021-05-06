@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.testkyrylohryzhuk.ui.splachscreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+
+        tools:layout="@layout/fragment_splash_screen">
+        <action
+            android:id="@+id/navigateToSecondScreen"
+            app:destination="@id/secondScreenFragment"
+            app:launchSingleTop="true"
+             />
+    </fragment>
+    <fragment
+        android:id="@+id/secondScreenFragment"
+        android:name="com.example.testkyrylohryzhuk.ui.tabscreen.SecondScreenFragment"
+        android:label="fragment_second_screen"
+
+        tools:layout="@layout/fragment_second_screen">
+        <action
+            android:id="@+id/navigateToResultScreen"
+            app:destination="@id/resultScreenFragment"
+          />
+
+    </fragment>
+    <fragment
+        android:id="@+id/resultScreenFragment"
+        android:name="com.example.testkyrylohryzhuk.ui.resultscreen.ResultScreenFragment"
+        android:label="fragment_result_screen"
+        tools:layout="@layout/fragment_result_screen">
+        <action
+            android:id="@+id/navigateToSecondScreen"
+            app:destination="@id/secondScreenFragment" />
+        <argument
+            android:name="lngOrigin"
+            android:defaultValue="Kolbasa"
+            app:argType="string" />
+        <argument
+            android:name="lngDestination"
+            android:defaultValue="Kolbasa"
+            app:argType="string" />
+    </fragment>
+</navigation>

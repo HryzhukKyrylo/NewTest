@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TestKyryloHryzhuk</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_text">fragment - 1</string>
+    <string name="second_text">fragment - 2</string>
+    <string name="result_text">fragment - result</string>
+    <string name="from_location">From location</string>
+    <string name="to_location">To location</string>
+    <string name="search_button">Search</string>
+    <string name="search_location">: Search location</string>
+    <string name="result_button">Result</string>
+    <string name="text_origin">Origin</string>
+    <string name="text_destination">Desination</string>
+    <string name="splash_description">description</string>
+    <string name="from_place">From Place</string>
+    <string name="to_place">To Place</string>
+
+</resources>
