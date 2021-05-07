@@ -1,7 +1,6 @@
 package com.example.testkyrylohryzhuk.ui.viewmodel
 
 
-import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import androidx.lifecycle.MutableLiveData
@@ -29,19 +28,19 @@ class SharedViewModel : ViewModel() {
     }
 
     fun searchAndAddToGlobal(str: String, geocoder: Geocoder) {
-        val list = geocoder.getFromLocationName(str, 1)
-        if (list.isNotEmpty()) {
-            addInGlobalList(list.first())
+        geocoder.getFromLocationName(str, 1).apply {
+            addInGlobalList(this.first())
         }
     }
 
-    private fun addInGlobalList(adr: Address) {
-        listGlobal.add(adr)
-    }
+    fun getAddress(lat: Double, lng: Double, geocoder: Geocoder): Address =
+         geocoder.getFromLocation(lat,lng,1).first()
 
-    private fun addInSearch(adr: Address) {
-        listSearch.add(adr)
-    }
+
+    private fun addInGlobalList(adr: Address) = listGlobal.add(adr)
+
+    private fun addInSearch(adr: Address) = listSearch.add(adr)
+
 
     fun setMyOrigin(data: Address) {
         origin.postValue(data)
@@ -53,11 +52,6 @@ class SharedViewModel : ViewModel() {
         setDestination = true
     }
 
-    fun getAddress(lat: Double, lng: Double, context: Context): Address {
-        val geocoder = Geocoder(context)
-        val list = geocoder.getFromLocation(lat, lng, 1)
-        return list.first()
-    }
 
     fun getSetOrigin() = setOrigin
 

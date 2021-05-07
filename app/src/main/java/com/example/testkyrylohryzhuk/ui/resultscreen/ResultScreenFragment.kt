@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -40,39 +39,57 @@ class ResultScreenFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initMapFragment()
+
+        toolbarNavigation()
+
+    }
+
+    private fun toolbarNavigation() {
+        toolbarId.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun initMapFragment() {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.mapResultFragment) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        val toolbar: Toolbar = toolbarId
-
-        toolbar.setNavigationOnClickListener {
-//            requireActivity().onBackPressed()
-            findNavController().popBackStack()
-        }
-     }
-
+    }
 
     override fun onMapReady(p0: GoogleMap) {
         mMap = p0
         if (viewModel.getSetOrigin() && viewModel.getSetDestination()) {
             var location1 = ""
             var location2 = ""
-            viewModel.origin.observe(this,Observer {
+            viewModel.origin.observe(this, Observer {
                 location1 = "" + it.latitude + "," + it.longitude
-                mMap.addMarker(MarkerOptions().position(LatLng(it.latitude,it.longitude)).title(it.getAddressLine(0)))
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude,it.longitude), 5f))
-
+                mMap.addMarker(
+                    MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                        .title(it.getAddressLine(0))
+                )
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            it.latitude,
+                            it.longitude
+                        ), 5f
+                    )
+                )
             })
-            viewModel.destination.observe(this,Observer{
-                location2 =  "" + it.latitude + "," + it.longitude
-                mMap.addMarker(MarkerOptions().position(LatLng(it.latitude,it.longitude)).title(it.getAddressLine(0)))
+            viewModel.destination.observe(this, Observer {
+                location2 = "" + it.latitude + "," + it.longitude
+                mMap.addMarker(
+                    MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                        .title(it.getAddressLine(0))
+                )
             })
 
             mainViewModel.getPoints(location1, location2)
             mainViewModel.res.observe(this, Observer {
                 mMap.addPolyline(it)
             })
-
 
         }
     }

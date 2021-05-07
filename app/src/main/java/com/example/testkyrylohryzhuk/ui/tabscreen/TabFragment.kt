@@ -45,11 +45,9 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO //////////////////////////////////////////////////
         arguments?.takeIf { it.containsKey("object") }?.apply {
             positionTab = getInt("object")
         }
-
 
         initMapFragment()
         initListeners()
@@ -93,7 +91,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap.setOnMapLongClickListener { location ->
             run {
                 val data =
-                    viewModel.getAddress(location.latitude, location.longitude, requireContext())
+                    viewModel.getAddress(location.latitude, location.longitude, geocoder)
 
                 mMap.clear()
                 mMap.addMarker(MarkerOptions().position(location).title(data.getAddressLine(0)))
@@ -151,7 +149,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
     }
     companion object{
-        private val latLngZoom = 12f
+        private const val latLngZoom = 12f
     }
 }
 
