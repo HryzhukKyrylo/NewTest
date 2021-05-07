@@ -24,8 +24,7 @@ class SecondScreenFragment : BaseFragment() {
     }
 
     private fun actionToResult() {
-        val action = SecondScreenFragmentDirections.navigateToResultScreen()
-        NavHostFragment.findNavController(this).navigate(action)
+        NavHostFragment.findNavController(this).navigate(R.id.navigateToResultScreen)
     }
 
     private fun setTabs() = with(viewPager) {

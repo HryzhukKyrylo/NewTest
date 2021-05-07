@@ -19,7 +19,7 @@ class DataController : EpoxyController() {
     }
 
     fun setData(list: List<Address>) {
-        foodItems = list
+        foodItems = list.distinct()
         requestModelBuild()
     }
 

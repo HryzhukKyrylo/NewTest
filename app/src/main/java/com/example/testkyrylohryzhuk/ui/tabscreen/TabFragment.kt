@@ -34,6 +34,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private val viewModel: SharedViewModel by activityViewModels()
     private val geocoder by lazy { Geocoder(context) }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

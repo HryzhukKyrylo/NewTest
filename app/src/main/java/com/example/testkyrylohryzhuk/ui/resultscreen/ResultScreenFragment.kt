@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.testkyrylohryzhuk.R
 import com.example.testkyrylohryzhuk.ui.viewmodel.MainViewModel
@@ -63,17 +64,17 @@ class ResultScreenFragment : Fragment(), OnMapReadyCallback {
         if (viewModel.getSetOrigin() && viewModel.getSetDestination()) {
             var location1 = ""
             var location2 = ""
-            viewModel.origin.observe(this, Observer {
-                location1 = "" + it.latitude + "," + it.longitude
+            viewModel.origin.observe(this, Observer { address ->
+                location1 = "" + address.latitude + "," + address.longitude
                 mMap.addMarker(
-                    MarkerOptions().position(LatLng(it.latitude, it.longitude))
-                        .title(it.getAddressLine(0))
+                    MarkerOptions().position(LatLng(address.latitude, address.longitude))
+                        .title(address.getAddressLine(0))
                 )
                 mMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(
-                            it.latitude,
-                            it.longitude
+                            address.latitude,
+                            address.longitude
                         ), 5f
                     )
                 )
@@ -85,12 +86,12 @@ class ResultScreenFragment : Fragment(), OnMapReadyCallback {
                         .title(it.getAddressLine(0))
                 )
             })
-
-            mainViewModel.getPoints(location1, location2)
-            mainViewModel.res.observe(this, Observer {
-                mMap.addPolyline(it)
-            })
-
+            with(mainViewModel) {
+                getPoints(location1, location2)
+                res.observe(viewLifecycleOwner, Observer {
+                    mMap.addPolyline(it)
+                })
+            }
         }
     }
 
