@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.testkyrylohryzhuk.R
 import com.example.testkyrylohryzhuk.ui.viewmodel.MainViewModel
@@ -30,7 +29,6 @@ class ResultScreenFragment : Fragment(), OnMapReadyCallback {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val viewModel: SharedViewModel by activityViewModels()
-
     private lateinit var mMap: GoogleMap
 
     override fun onCreateView(

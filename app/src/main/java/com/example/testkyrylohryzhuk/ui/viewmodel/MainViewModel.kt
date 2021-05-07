@@ -31,11 +31,14 @@ class MainViewModel @Inject constructor(
                 val result = ArrayList<List<LatLng>>()
                 val path = ArrayList<LatLng>()
 
+                //TODO ///////////////////////////////////////////////////////////////
+
                 if (responseObject != null) {
                     for (element in responseObject.routes[0].legs[0].steps) {
                         path.addAll(element.polyline.points.decodePolyline())
                     }
                 }
+
                 result.add(path)
 
                 val lineOption = PolylineOptions()

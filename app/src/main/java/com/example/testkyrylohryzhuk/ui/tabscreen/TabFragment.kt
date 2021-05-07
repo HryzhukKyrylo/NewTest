@@ -2,6 +2,7 @@ package com.example.testkyrylohryzhuk.ui.tabscreen
 
 import android.content.Context
 import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var mMap: GoogleMap
     private val viewModel: SharedViewModel by activityViewModels()
+    private val geocoder by lazy { Geocoder(context) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +44,13 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TODO //////////////////////////////////////////////////
         arguments?.takeIf { it.containsKey("object") }?.apply {
             positionTab = getInt("object")
         }
+
+
         initMapFragment()
         initListeners()
     }
@@ -59,14 +65,14 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         searchTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position)
-                viewModel.searchAndAddToGlobal(item.toString(), requireContext())
+                viewModel.searchAndAddToGlobal(item.toString(), geocoder)
                 BottomFragment().show(childFragmentManager, "TAG")
             }
 
         searchButton.setOnClickListener {
             val searchText = searchTextView.text.toString()
             if (searchText != "" && searchText.isNotEmpty()) {
-                val success = viewModel.searchAddress(searchText, requireContext())
+                val success = viewModel.searchAddress(searchText, geocoder)
                 if (success) {
                     val adapter = ArrayAdapter(
                         context as Context,

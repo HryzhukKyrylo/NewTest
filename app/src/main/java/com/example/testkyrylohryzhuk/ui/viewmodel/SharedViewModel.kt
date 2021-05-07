@@ -17,8 +17,8 @@ class SharedViewModel : ViewModel() {
     var listGlobal = mutableListOf<Address>()
     var listSearch = mutableListOf<Address>()
 
-    fun searchAddress(str: String, context: Context): Boolean {
-        val list = Geocoder(context).getFromLocationName(str, 5)
+    fun searchAddress(str: String, geocoder: Geocoder): Boolean {
+        val list = geocoder.getFromLocationName(str, 5)
         if (list.isNotEmpty()) {
             listSearch.clear()
             list.forEach { element ->
@@ -28,8 +28,8 @@ class SharedViewModel : ViewModel() {
         return list.isNotEmpty()
     }
 
-    fun searchAndAddToGlobal(str: String, context: Context) {
-        val list = Geocoder(context).getFromLocationName(str, 1)
+    fun searchAndAddToGlobal(str: String, geocoder: Geocoder) {
+        val list = geocoder.getFromLocationName(str, 1)
         if (list.isNotEmpty()) {
             addInGlobalList(list.first())
         }
