@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_tab.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
     OnSelectionsListener {
@@ -99,11 +101,11 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
                 when (positionTab) {
                     1 -> {
-                        viewModel.setMyOrigin(data)
+                        viewModel.setPositions(origin = data)
                         searchTextView.setText(data.getAddressLine(0))
                     }
                     2 -> {
-                        viewModel.setMyDestination(data)
+                        viewModel.setPositions(destination = data)
                         searchTextView.setText(data.getAddressLine(0))
                     }
                 }
@@ -116,7 +118,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun addSelectionsMarker(data: Address) {
         when (positionTab) {
             1 -> {
-                viewModel.setMyOrigin(data)
+                viewModel.setPositions(origin = data)
                 mMap.clear()
                 mMap.addMarker(
                     MarkerOptions().position(LatLng(data.latitude, data.longitude))
@@ -132,7 +134,7 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 )
             }
             2 -> {
-                viewModel.setMyDestination(data)
+                viewModel.setPositions(destination = data)
                 mMap.clear()
                 mMap.addMarker(
                     MarkerOptions().position(LatLng(data.latitude, data.longitude))

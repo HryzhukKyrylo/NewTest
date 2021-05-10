@@ -34,24 +34,22 @@ class SharedViewModel : ViewModel() {
     }
 
     fun getAddress(lat: Double, lng: Double, geocoder: Geocoder): Address =
-         geocoder.getFromLocation(lat,lng,1).first()
-
+        geocoder.getFromLocation(lat, lng, 1).first()
 
     private fun addInGlobalList(adr: Address) = listGlobal.add(adr)
 
     private fun addInSearch(adr: Address) = listSearch.add(adr)
 
-
-    fun setMyOrigin(data: Address) {
-        origin.postValue(data)
-        setOrigin = true
+    fun setPositions(origin: Address? = null, destination: Address? = null) {
+        origin.takeIf { it != null }?.let {
+            this.origin.postValue(it)
+            setOrigin = true
+        }
+        destination.takeIf { it != null }?.let {
+            this.destination.postValue(it)
+            setDestination = true
+        }
     }
-
-    fun setMyDestination(data: Address) {
-        destination.postValue(data)
-        setDestination = true
-    }
-
 
     fun getSetOrigin() = setOrigin
 
