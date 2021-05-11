@@ -8,6 +8,7 @@ import com.example.testkyrylohryzhuk.utils.adapter.MyPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_second_screen.*
 
+
 class SecondScreenFragment : BaseFragment() {
 
     override var fragmentLayout = R.layout.fragment_second_screen

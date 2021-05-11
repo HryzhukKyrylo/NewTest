@@ -16,6 +16,7 @@ import com.example.testkyrylohryzhuk.R
 import com.example.testkyrylohryzhuk.ui.tabscreen.bottomfragment.BottomFragment
 import com.example.testkyrylohryzhuk.ui.tabscreen.bottomfragment.OnSelectionsListener
 import com.example.testkyrylohryzhuk.ui.viewmodel.SharedViewModel
+import com.example.testkyrylohryzhuk.utils.adapter.TAB_POSITION
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,12 +25,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
     OnSelectionsListener {
-
+// don't work
+//     private var positionTab: Int? = arguments?.takeIf{ it.containsKey("object")}?.getInt("object")
     private var positionTab: Int? = null
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var mMap: GoogleMap
@@ -47,13 +47,14 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments?.takeIf { it.containsKey("object") }?.apply {
-            positionTab = getInt("object")
-        }
-
+        setTabPosition()
         initMapFragment()
         initListeners()
+    }
+    private fun setTabPosition(){
+        arguments?.takeIf { it.containsKey(TAB_POSITION) }?.apply {
+            positionTab = getInt(TAB_POSITION)
+        }
     }
 
     private fun initMapFragment(){
@@ -119,35 +120,36 @@ class TabFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         when (positionTab) {
             1 -> {
                 viewModel.setPositions(origin = data)
-                mMap.clear()
-                mMap.addMarker(
-                    MarkerOptions().position(LatLng(data.latitude, data.longitude))
+                with(mMap){
+                    clear()
+                    addMarker(MarkerOptions()
+                        .position(LatLng(data.latitude, data.longitude))
                         .title(data.getAddressLine(0))
-                )
-                mMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            data.latitude,
-                            data.longitude
-                        ), latLngZoom
                     )
-                )
+                    moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(
+                                data.latitude,
+                                data.longitude
+                            ), latLngZoom
+                        )
+                    )
+                }
             }
             2 -> {
                 viewModel.setPositions(destination = data)
-                mMap.clear()
-                mMap.addMarker(
-                    MarkerOptions().position(LatLng(data.latitude, data.longitude))
+                with(mMap){
+                    clear()
+                    addMarker(MarkerOptions()
+                        .position(LatLng(data.latitude, data.longitude))
                         .title(data.getAddressLine(0))
-                )
-                mMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            data.latitude,
-                            data.longitude
-                        ), latLngZoom
                     )
-                )
+                    moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                        LatLng(data.latitude, data.longitude)
+                        ,latLngZoom)
+                    )
+                }
             }
         }
     }
